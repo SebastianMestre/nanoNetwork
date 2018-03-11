@@ -1,4 +1,5 @@
-#include "header/NeuralNetwork.hpp"
+#include <algorithm>
+#include "NeuralNetwork.hpp"
 
 namespace simplemind {
 
