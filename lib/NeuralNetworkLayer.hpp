@@ -1,14 +1,13 @@
-#ifndef SIMPLEMIND_NEURALNETWORKLAYER_HPP
-#define SIMPLEMIND_NEURALNETWORKLAYER_HPP
+#ifndef NANONET_NEURALNETWORKLAYER_HPP
+#define NANONET_NEURALNETWORKLAYER_HPP
 
 #include <ctime>
 #include <random>
 #include <vector>
 
-#include "NeuralNetworkLayer.hpp"
 #include "ActivationFunction.hpp"
 
-namespace simplemind {
+namespace nanoNet {
 
   class NeuralNetworkLayer {
   private:
@@ -53,6 +52,6 @@ namespace simplemind {
     const std::vector<std::vector<float> >& getWeight(){return mWeight;}
   private:
   };
-} /* simplemind */
+} /* nanoNet */
 
-#endif // SIMPLEMIND_NEURALNETWORKLAYER_HPP
+#endif // NANONET_NEURALNETWORKLAYER_HPP

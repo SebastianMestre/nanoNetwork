@@ -1,6 +1,6 @@
 #include "ActivationFunction.hpp"
 
-namespace simplemind {
+namespace nanoNet {
   ActivationFunction::ActivationFunction(activationEnum selected){
     mSelected = selected;
   }
@@ -53,4 +53,4 @@ namespace simplemind {
   static float ActivationFunction::RELU_CM(float x);
   static float ActivationFunction::LINEAR_AC(float x);
   static float ActivationFunction::LINEAR_CM(float x);
-} /* simplemind */
+} /* nanoNet */

@@ -1,6 +1,6 @@
 #include "NeuralNetworkLayer.hpp"
 
-namespace simplemind {
+namespace nanoNet {
 
   NeuralNetworkLayer::NeuralNetworkLayer(std::size_t nodeCount, std::size_t prevCount, ActivationFunction::activationEnum activationFunction){
     std::mt19937 rng{time(NULL)};
@@ -137,4 +137,4 @@ namespace simplemind {
   }
 
 
-} /* simplemind */
+} /* nanoNet */

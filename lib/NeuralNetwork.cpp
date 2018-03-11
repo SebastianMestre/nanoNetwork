@@ -1,7 +1,6 @@
-#include <algorithm>
 #include "NeuralNetwork.hpp"
 
-namespace simplemind {
+namespace nanoNet {
 
   NeuralNetwork::NeuralNetwork(std::size_t inputCount, std::size_t outputCount):mInputCount(inputCount), mOutputCount(outputCount){
     mOutputLayer = NeuralNetworkLayer(outputCount, inputCount, ActivationFunction::Linear);
@@ -9,7 +8,7 @@ namespace simplemind {
 
   void NeuralNetwork::addLayer(std::size_t nodeCount, ActivationFunction::activationEnum activationFunction){
     if(mLayerCount == 0)
-      mHiddenLayers.push_back(NeuralNetworkLayer(nodeCount, inputCount, activationFunction));
+      mHiddenLayers.push_back(NeuralNetworkLayer(nodeCount, mInputCount, activationFunction));
     else
       mHiddenLayers.push_back(NeuralNetworkLayer(nodeCount, mHiddenLayers.back().getNodeCount(), activationFunction));
 
@@ -41,7 +40,7 @@ namespace simplemind {
     mOutputLayer.startTraining();
 
     for (int iEpoch = 0; iEpoch < epochs; iEpoch++) {
-      std::random_shuffle(trainData.begin(), trainData.end(), rng);
+      std::shuffle(trainData.begin(), trainData.end(), rng);
 
       for(int k = 0; k < trainExamples; k += batchSize ){
         for(int iExample = k; iExample < k + batchSize && iExample < trainExamples; iExample++){
@@ -84,4 +83,4 @@ namespace simplemind {
     mOutputLayer.stopTraining();
   }
 
-} /* simplemind */
+} /* nanoNet */

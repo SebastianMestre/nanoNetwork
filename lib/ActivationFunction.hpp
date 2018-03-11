@@ -1,13 +1,14 @@
-#ifndef SIMPLEMIND_ACTIVATIONFUNCTION_HPP
-#define SIMPLEMIND_ACTIVATIONFUNCTION_HPP
+#ifndef NANONET_ACTIVATIONFUNCTION_HPP
+#define NANONET_ACTIVATIONFUNCTION_HPP
 
 #include <cmath>
 
-namespace simplemind {
+namespace nanoNet {
   class ActivationFunction{
 
-  private:
+  public:
     enum activationEnum{Sigmoid = 0, Tanh, Relu, Linear};
+  private:
     activationEnum mSelected;
 
   public:
@@ -27,6 +28,6 @@ namespace simplemind {
     static float LINEAR_AC(float x);
     static float LINEAR_CM(float x);
   };
-} /* simplemind */
+} /* nanoNet */
 
-#endif /* SIMPLEMIND_ACTIVATIONFUNCTION_HPP */
+#endif /* NANONET_ACTIVATIONFUNCTION_HPP */

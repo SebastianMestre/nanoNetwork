@@ -1,6 +1,7 @@
-#ifndef SIMPLEMIND_NEURALNETWORK_HPP
-#define SIMPLEMIND_NEURALNETWORK_HPP
+#ifndef NANONET_NEURALNETWORK_HPP
+#define NANONET_NEURALNETWORK_HPP
 
+#include <algorithm>
 #include <ctime>
 #include <random>
 #include <vector>
@@ -8,7 +9,7 @@
 #include "ActivationFunction.hpp"
 #include "NeuralNetworkLayer.hpp"
 
-namespace simplemind{
+namespace nanoNet{
   class NeuralNetwork{
   private:
     std::size_t mInputCount;
@@ -27,8 +28,8 @@ namespace simplemind{
     std::size_t getOutputCount(){return mOutputCount;}
     std::size_t getLayerCount(){return mLayerCount;}
   };
-} /* simplemind */
+} /* nanoNet */
 
 
 
-#endif // SIMPLEMIND_NEURALNETWORK_HPP
+#endif // NANONET_NEURALNETWORK_HPP
