@@ -1,4 +1,4 @@
-#include "header/ActivationFunction.hpp"
+#include "ActivationFunction.hpp"
 
 namespace simplemind {
   ActivationFunction::ActivationFunction(activationEnum selected){

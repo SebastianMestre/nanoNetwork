@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "NeuralNetworkLayer.hpp"
+#include "ActivationFunction.hpp"
 
 namespace simplemind {
 
