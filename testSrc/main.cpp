@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../lib/ActivationFunction.hpp"
 
-using namespace simplemind;
+using namespace nanoNet;
 
 int main() {
   std::cout << "Hello, World!" << std::endl;
