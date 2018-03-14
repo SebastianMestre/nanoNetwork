@@ -31,3 +31,4 @@ cmake-build-release/
 # Local scripts
 build.bat
 error.log
+bin
