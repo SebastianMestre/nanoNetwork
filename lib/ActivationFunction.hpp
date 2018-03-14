@@ -2,6 +2,8 @@
 #define NANONET_ACTIVATIONFUNCTION_HPP
 
 #include <cmath>
+#include <utility>
+#include <algorithm>
 
 namespace nanoNet {
   class ActivationFunction{

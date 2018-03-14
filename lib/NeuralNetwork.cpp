@@ -2,15 +2,19 @@
 
 namespace nanoNet {
 
-  NeuralNetwork::NeuralNetwork(std::size_t inputCount, std::size_t outputCount):mInputCount(inputCount), mOutputCount(outputCount){
-    mOutputLayer = NeuralNetworkLayer(outputCount, inputCount, ActivationFunction::Linear);
+  NeuralNetwork::NeuralNetwork(std::size_t inputCount, std::size_t outputCount):
+  mOutputLayer(outputCount, inputCount, ActivationFunction::Linear){
+    mInputCount = inputCount;
+    mOutputCount = outputCount;
+    mLayerCount = 0u;
   }
 
   void NeuralNetwork::addLayer(std::size_t nodeCount, ActivationFunction::activationEnum activationFunction){
-    if(mLayerCount == 0)
+    if(mLayerCount == 0){
       mHiddenLayers.push_back(NeuralNetworkLayer(nodeCount, mInputCount, activationFunction));
-    else
+    }else{
       mHiddenLayers.push_back(NeuralNetworkLayer(nodeCount, mHiddenLayers.back().getNodeCount(), activationFunction));
+    }
 
     mOutputLayer = NeuralNetworkLayer(mOutputCount, mHiddenLayers.back().getNodeCount(), ActivationFunction::Linear);
   }
@@ -28,10 +32,8 @@ namespace nanoNet {
 
   }
 
-  void NeuralNetwork::train( const std::vector<std::pair<std::vector<float>, std::vector<float> > >& trainData, std::size_t batchSize, std::size_t epochs, float learningRate){
-    // TODO:
-    // make static / global rng
-    std::mt19937 rng{time(0)};
+  void NeuralNetwork::train( const std::vector<TrainExample>& trainData, std::size_t batchSize, std::size_t epochs, float learningRate){
+
     int trainExamples = (int)trainData.size();
 
     for(int i = 0; i < mLayerCount; i++){
@@ -40,18 +42,18 @@ namespace nanoNet {
     mOutputLayer.startTraining();
 
     for (int iEpoch = 0; iEpoch < epochs; iEpoch++) {
-      std::shuffle(trainData.begin(), trainData.end(), rng);
+      ///std::shuffle(trainData.begin(), trainData.end(), std::default_random_engine(0));
 
       for(int k = 0; k < trainExamples; k += batchSize ){
         for(int iExample = k; iExample < k + batchSize && iExample < trainExamples; iExample++){
 
-          process(trainData[iExample].first);
+          process(trainData[iExample].input);
 
-          mOutputLayer.gradientFromExample(trainData[iExample].second);
+          mOutputLayer.gradientFromExample(trainData[iExample].output);
           if(mLayerCount == 0){
-            mOutputLayer.gradientFromAnother(trainData[iExample].first);
+            mOutputLayer.gradientFromActives(trainData[iExample].input);
           }else{
-            mOutputLayer.gradientFromAnother(mHiddenLayers[mLayerCount-1]);
+            mOutputLayer.gradientFromActives(mHiddenLayers[mLayerCount-1]);
           }
 
           for(int i = mLayerCount-1; i >= 0; i--){
@@ -63,7 +65,7 @@ namespace nanoNet {
             }
 
             if(i == 0){
-              mHiddenLayers[i].gradientFromActives(trainData[iExample].first);
+              mHiddenLayers[i].gradientFromActives(trainData[iExample].input);
             }else{
               mHiddenLayers[i].gradientFromActives(mHiddenLayers[i+1]);
             }

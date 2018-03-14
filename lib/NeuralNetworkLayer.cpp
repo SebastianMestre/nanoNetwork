@@ -2,27 +2,31 @@
 
 namespace nanoNet {
 
-  NeuralNetworkLayer::NeuralNetworkLayer(std::size_t nodeCount, std::size_t prevCount, ActivationFunction::activationEnum activationFunction){
-    std::mt19937 rng{time(NULL)};
-    std::uniform_real_distribution<float> uniform{-1.0f, 1.0f};
+  NeuralNetworkLayer::NeuralNetworkLayer(std::size_t nodeCount, std::size_t prevCount, ActivationFunction::activationEnum activationFunction)
+  : mActivationFunction(activationFunction) {
+
+    // std::mt19937 rng(std::time(NULL));
+    // std::uniform_real_distribution<float> uniform(-1.0f, 1.0f);
 
     mNodeCount = nodeCount;
     mPrevCount = prevCount;
-    mActivationFunction = ActivationFunction(activationFunction);
     mIsTraining = false;
 
     mBiases = std::vector<float>(nodeCount, 0.0f);
     mWeight = std::vector<std::vector<float> >(nodeCount, std::vector<float>(prevCount, 0.0f));
 
     for(int i = 0; i < nodeCount; i++){
-      mBiases[i] = uniform(rng);
+      // mBiases[i] = uniform(rng);
+      mBiases[i] = 0.0f;
       for(int j = 0; j < prevCount; j++){
-        mWeight[i][j] = uniform(rng);
+        // mWeight[i][j] = uniform(rng);
+        mWeight[i][j] = 0.0f;
       }
     }
   }
 
   NeuralNetworkLayer::~NeuralNetworkLayer(){
+    // TODO: complete this
     if(mIsTraining){
       stopTraining();
     }
@@ -30,7 +34,7 @@ namespace nanoNet {
 
   std::vector<float> NeuralNetworkLayer::feedForward(const std::vector<float>& inputData){
 
-    std::vector<float> result{mNodeCount};
+    std::vector<float> result(mNodeCount);
 
     for (int i = 0; i < mNodeCount; i++) {
       result[i] = mBiases[i];
@@ -70,10 +74,15 @@ namespace nanoNet {
     }
   }
 
+  void NeuralNetworkLayer::gradientFromActives(const NeuralNetworkLayer& prev) {
+    gradientFromActives(*prev.pValues);
+  }
+
   void NeuralNetworkLayer::gradientFromActives(const std::vector<float>& inputData) {
     if(!mIsTraining)
       return;
 
+    // TODO: fix names
     for(int i = 0; i < mNodeCount; i++){
       float aaa = (*pValuesG)[i] * mActivationFunction[ (*pValues)[i] ];
 

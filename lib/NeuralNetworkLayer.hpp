@@ -19,6 +19,7 @@ namespace nanoNet {
     std::vector<float> mBiases;
     std::vector<std::vector<float> > mWeight;
 
+    // TODO: use std::unique_ptr
     /* activation for 'current' train example */
     std::vector<float>* pValues;
 
@@ -30,10 +31,11 @@ namespace nanoNet {
     std::vector<std::vector<float> >* pWeightGS;
 
   public:
-    NeuralNetworkLayer(std::size_t nodeCount, std::size_t prevCount, ActivationFunction::activationEnum activationFunction);
+    NeuralNetworkLayer();
+    NeuralNetworkLayer(std::size_t nodeCount, std::size_t prevCount, nanoNet::ActivationFunction::activationEnum activationFunction);
     ~NeuralNetworkLayer();
 
-    std::vector<float> feedForward(std::vector<float> inputData);
+    std::vector<float> feedForward(const std::vector<float>& inputData);
 
     void gradientFromExample(const std::vector<float>& exampleData);
     void gradientFromAnother(const NeuralNetworkLayer& next);
@@ -46,11 +48,10 @@ namespace nanoNet {
     void stopTraining();
     void applyTraining(float learningRate, int exampleCount);
 
-    std::size_t getNodeCount(){return mNodeCount;}
-    std::size_t getPrevCount(){return mPrevCount;}
+    std::size_t getNodeCount() const {return mNodeCount;}
+    std::size_t getPrevCount() const {return mPrevCount;}
 
-    const std::vector<std::vector<float> >& getWeight(){return mWeight;}
-  private:
+    const std::vector<std::vector<float> >& getWeight() const {return mWeight;}
   };
 } /* nanoNet */
 

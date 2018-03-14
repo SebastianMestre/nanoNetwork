@@ -28,3 +28,6 @@ cmake-build-release/
 ## File-based project format:
 *.iws
 
+# Local scripts
+build.bat
+error.log

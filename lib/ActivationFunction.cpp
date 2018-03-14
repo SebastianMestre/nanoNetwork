@@ -9,7 +9,7 @@ namespace nanoNet {
     mSelected = selected;
   }
 
-  float ActivationFunction::operator()(float x) {
+  float ActivationFunction::operator()(float x) const {
     switch (mSelected) {
       case Sigmoid:
         return SIGMOID_AC(x);
@@ -24,7 +24,7 @@ namespace nanoNet {
     }
   }
 
-  float ActivationFunction::operator[](float x) {
+  float ActivationFunction::operator[](float x) const {
     switch (mSelected) {
       case Sigmoid:
         return SIGMOID_CM(x);
@@ -39,18 +39,28 @@ namespace nanoNet {
     }
   }
 
-  static float ActivationFunction::SIGMOID_AC(float x){
+  float ActivationFunction::SIGMOID_AC(float x){
     return 1.0f / ( 1.0f + expf(-x) );
   }
-  static float ActivationFunction::SIGMOID_CM(float x){
+  float ActivationFunction::SIGMOID_CM(float x){
     return x * (x - 1.0f);
   }
-  static float ActivationFunction::TANH_AC(float x){
+  float ActivationFunction::TANH_AC(float x){
     return 2.0f / ( 1.0f + expf(-x) ) - 1.0f;
   }
-  static float ActivationFunction::TANH_CM(float x);
-  static float ActivationFunction::RELU_AC(float x);
-  static float ActivationFunction::RELU_CM(float x);
-  static float ActivationFunction::LINEAR_AC(float x);
-  static float ActivationFunction::LINEAR_CM(float x);
+  float ActivationFunction::TANH_CM(float x){
+    return (1.0f - x)*(1.0f + x);
+  }
+  float ActivationFunction::RELU_AC(float x){
+    return std::max(0.0f, x);
+  }
+  float ActivationFunction::RELU_CM(float x){
+    return x > 0.0f ? 1.0f : 0.0f;
+  }
+  float ActivationFunction::LINEAR_AC(float x){
+    return x;
+  }
+  float ActivationFunction::LINEAR_CM(float x){
+    return 1.0f;
+  }
 } /* nanoNet */
