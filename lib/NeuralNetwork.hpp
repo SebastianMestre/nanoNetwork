@@ -11,13 +11,11 @@
 #include "ActivationFunction.hpp"
 #include "NeuralNetworkLayer.hpp"
 
-
 namespace nanoNet{
-
-  struct TrainExample{
+  struct  DataPoint{
     std::vector<float> input;
     std::vector<float> output;
-  };
+  }
 
   class NeuralNetwork{
   private:
@@ -33,7 +31,7 @@ namespace nanoNet{
     void addLayer(std::size_t nodeCount, ActivationFunction::activationEnum activationFunction);
 
     std::vector<float> process(const std::vector<float>& inputData);
-    void train( const std::vector<TrainExample>& trainData, std::size_t batchSize, std::size_t epochs, float learningRate);
+    void train( const std::vector<DataPoint>& trainData, std::size_t batchSize, std::size_t epochs, float learningRate);
 
     std::size_t getInputCount(){return mInputCount;}
     std::size_t getOutputCount(){return mOutputCount;}

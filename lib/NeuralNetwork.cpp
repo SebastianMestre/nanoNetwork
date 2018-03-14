@@ -32,7 +32,7 @@ namespace nanoNet {
 
   }
 
-  void NeuralNetwork::train( const std::vector<TrainExample>& trainData, std::size_t batchSize, std::size_t epochs, float learningRate){
+  void NeuralNetwork::train( const std::vector<DataPoint>& trainData, std::size_t batchSize, std::size_t epochs, float learningRate){
 
     int trainExamples = (int)trainData.size();
 
