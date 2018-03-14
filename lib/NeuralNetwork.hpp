@@ -15,7 +15,7 @@ namespace nanoNet{
   struct  DataPoint{
     std::vector<float> input;
     std::vector<float> output;
-  }
+  };
 
   class NeuralNetwork{
   private:
