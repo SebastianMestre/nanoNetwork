@@ -1,12 +1,8 @@
 #include "ActivationFunction.hpp"
 
 namespace nanoNet {
-  ActivationFunction::ActivationFunction(activationEnum selected){
-    mSelected = selected;
-  }
+  ActivationFunction::ActivationFunction(activationEnum selected) : mSelected(selected) {
 
-  void ActivationFunction::setSelected(activationEnum selected) {
-    mSelected = selected;
   }
 
   float ActivationFunction::operator()(float x) const {

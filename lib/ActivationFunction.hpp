@@ -11,11 +11,10 @@ namespace nanoNet {
   public:
     enum activationEnum{Sigmoid = 0, Tanh, Relu, Linear};
   private:
-    activationEnum mSelected;
+    const activationEnum mSelected;
 
   public:
     explicit ActivationFunction(activationEnum selected);
-    void setSelected(activationEnum selected);
 
     float operator()(float x) const;
     float operator[](float x) const;
