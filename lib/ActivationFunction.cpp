@@ -1,12 +1,8 @@
 #include "ActivationFunction.hpp"
 
 namespace nanoNet {
-  ActivationFunction::ActivationFunction(activationEnum selected){
-    mSelected = selected;
-  }
+  ActivationFunction::ActivationFunction(activationEnum selected) : mSelected(selected) {
 
-  void ActivationFunction::setSelected(activationEnum selected) {
-    mSelected = selected;
   }
 
   float ActivationFunction::operator()(float x) const {
@@ -39,28 +35,28 @@ namespace nanoNet {
     }
   }
 
-  float ActivationFunction::SIGMOID_AC(float x){
+  float ActivationFunction::SIGMOID_AC(float x) const {
     return 1.0f / ( 1.0f + expf(-x) );
   }
-  float ActivationFunction::SIGMOID_CM(float x){
+  float ActivationFunction::SIGMOID_CM(float x) const {
     return x * (x - 1.0f);
   }
-  float ActivationFunction::TANH_AC(float x){
+  float ActivationFunction::TANH_AC(float x) const {
     return 2.0f / ( 1.0f + expf(-x) ) - 1.0f;
   }
-  float ActivationFunction::TANH_CM(float x){
+  float ActivationFunction::TANH_CM(float x) const {
     return (1.0f - x)*(1.0f + x);
   }
-  float ActivationFunction::RELU_AC(float x){
+  float ActivationFunction::RELU_AC(float x) const {
     return std::max(0.0f, x);
   }
-  float ActivationFunction::RELU_CM(float x){
+  float ActivationFunction::RELU_CM(float x) const {
     return x > 0.0f ? 1.0f : 0.0f;
   }
-  float ActivationFunction::LINEAR_AC(float x){
+  float ActivationFunction::LINEAR_AC(float x) const {
     return x;
   }
-  float ActivationFunction::LINEAR_CM(float x){
+  float ActivationFunction::LINEAR_CM(float x) const {
     return 1.0f;
   }
 } /* nanoNet */
