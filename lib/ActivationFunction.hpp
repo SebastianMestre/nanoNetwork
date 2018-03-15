@@ -14,7 +14,7 @@ namespace nanoNet {
     activationEnum mSelected;
 
   public:
-    ActivationFunction(activationEnum selected);
+    explicit ActivationFunction(activationEnum selected);
     void setSelected(activationEnum selected);
 
     float operator()(float x) const;
