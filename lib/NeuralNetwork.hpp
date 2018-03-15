@@ -25,7 +25,6 @@ namespace nanoNet{
     NeuralNetworkLayer mOutputLayer;
     std::vector<NeuralNetworkLayer> mHiddenLayers;
   public:
-    NeuralNetwork();
     NeuralNetwork(std::size_t inputCount, std::size_t outputCount);
     ~NeuralNetwork() = default;
     void addLayer(std::size_t nodeCount, ActivationFunction::activationEnum activationFunction);
