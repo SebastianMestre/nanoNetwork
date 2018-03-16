@@ -12,55 +12,55 @@ namespace nanoNet {
   float ActivationFunction::operator()(float x) const {
     switch (mSelected) {
       case Sigmoid:
-        return SIGMOID_AC(x);
+        return sigmoid_activation(x);
       case Tanh:
-        return TANH_AC(x);
+        return tanh_activation(x);
       case Relu:
-        return RELU_AC(x);
+        return relu_activation(x);
       case Linear:
-        return LINEAR_AC(x);
+        return linear_activation(x);
       default:
-        return SIGMOID_AC(x);
+        return sigmoid_activation(x);
     }
   }
 
   float ActivationFunction::operator[](float x) const {
     switch (mSelected) {
       case Sigmoid:
-        return SIGMOID_CM(x);
+        return sigmoid_derivative(x);
       case Tanh:
-        return TANH_CM(x);
+        return tanh_derivative(x);
       case Relu:
-        return RELU_CM(x);
+        return relu_derivative(x);
       case Linear:
-        return LINEAR_CM(x);
+        return linear_derivative(x);
       default:
-        return SIGMOID_CM(x);
+        return sigmoid_derivative(x);
     }
   }
 
-  float ActivationFunction::SIGMOID_AC(float x){
+  float ActivationFunction::sigmoid_activation(float x){
     return 1.0f / ( 1.0f + expf(-x) );
   }
-  float ActivationFunction::SIGMOID_CM(float x){
+  float ActivationFunction::sigmoid_derivative(float x){
     return x * (x - 1.0f);
   }
-  float ActivationFunction::TANH_AC(float x){
+  float ActivationFunction::tanh_activation(float x){
     return 2.0f / ( 1.0f + expf(-x) ) - 1.0f;
   }
-  float ActivationFunction::TANH_CM(float x){
+  float ActivationFunction::tanh_derivative(float x){
     return (1.0f - x)*(1.0f + x);
   }
-  float ActivationFunction::RELU_AC(float x){
+  float ActivationFunction::relu_activation(float x){
     return std::max(0.0f, x);
   }
-  float ActivationFunction::RELU_CM(float x){
+  float ActivationFunction::relu_derivative(float x){
     return x > 0.0f ? 1.0f : 0.0f;
   }
-  float ActivationFunction::LINEAR_AC(float x){
+  float ActivationFunction::linear_activation(float x){
     return x;
   }
-  float ActivationFunction::LINEAR_CM(float x){
+  float ActivationFunction::linear_derivative(float x){
     return 1.0f;
   }
 } /* nanoNet */

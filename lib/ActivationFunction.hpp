@@ -21,14 +21,14 @@ namespace nanoNet {
     float operator[](float x) const;
 
   private:
-    static float SIGMOID_AC(float x);
-    static float SIGMOID_CM(float x);
-    static float TANH_AC(float x);
-    static float TANH_CM(float x);
-    static float RELU_AC(float x);
-    static float RELU_CM(float x);
-    static float LINEAR_AC(float x);
-    static float LINEAR_CM(float x);
+    static float sigmoid_activation(float x);
+    static float sigmoid_derivative(float x);
+    static float tanh_activation(float x);
+    static float tanh_derivative(float x);
+    static float relu_activation(float x);
+    static float relu_derivative(float x);
+    static float linear_activation(float x);
+    static float linear_derivative(float x);
   };
 } /* nanoNet */
 
