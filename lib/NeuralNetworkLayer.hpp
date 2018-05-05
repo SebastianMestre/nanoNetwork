@@ -9,38 +9,41 @@
 
 namespace nanoNet {
 
+  using std::vector;
+  using std::size_t;
+
   class NeuralNetworkLayer {
   private:
     ActivationFunction mActivationFunction;
     bool mIsTraining;
 
-    std::size_t mNodeCount;
-    std::size_t mPrevCount;
-    std::vector<float> mBiases;
-    std::vector<std::vector<float> > mWeight;
+    size_t mNodeCount;
+    size_t mPrevCount;
+    vector<float> mBiases;
+    vector<vector<float> > mWeight;
 
     // TODO: use std::unique_ptr
     /* activation for 'current' train example */
-    std::vector<float>* pValues;
+    vector<float>* pValues;
 
     /* gradients for 'current' train example */
-    std::vector<float>* pValuesG;
+    vector<float>* pValuesG;
 
     /* gradient sums over all train examples in batch */
-    std::vector<float>* pBiasesGS;
-    std::vector<std::vector<float> >* pWeightGS;
+    vector<float>* pBiasesGS;
+    vector<vector<float> >* pWeightGS;
 
   public:
     NeuralNetworkLayer();
-    NeuralNetworkLayer(std::size_t nodeCount, std::size_t prevCount, nanoNet::ActivationFunction::activationEnum activationFunction);
+    NeuralNetworkLayer(size_t nodeCount, size_t prevCount, nanoNet::ActivationFunction::activationEnum activationFunction);
     ~NeuralNetworkLayer();
 
-    std::vector<float> feedForward(const std::vector<float>& inputData);
+    vector<float> feedForward(const vector<float>& inputData);
 
-    void gradientFromExample(const std::vector<float>& exampleData);
+    void gradientFromExample(const vector<float>& exampleData);
     void gradientFromAnother(const NeuralNetworkLayer& next);
     void gradientFromActives(const NeuralNetworkLayer& prev);
-    void gradientFromActives(const std::vector<float>& inputData);
+    void gradientFromActives(const vector<float>& inputData);
 
     void substractGradients(float amount);
 
@@ -48,10 +51,10 @@ namespace nanoNet {
     void stopTraining();
     void applyTraining(float learningRate, int exampleCount);
 
-    std::size_t getNodeCount() const {return mNodeCount;}
-    std::size_t getPrevCount() const {return mPrevCount;}
+    size_t getNodeCount() const {return mNodeCount;}
+    size_t getPrevCount() const {return mPrevCount;}
 
-    const std::vector<std::vector<float> >& getWeight() const {return mWeight;}
+    const vector<vector<float> >& getWeight() const {return mWeight;}
   };
 } /* nanoNet */
 
