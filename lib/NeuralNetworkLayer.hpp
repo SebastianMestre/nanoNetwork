@@ -12,12 +12,12 @@ namespace nanoNet {
   class NeuralNetworkLayer {
   private:
     ActivationFunction mActivationFunction;
-    bool mIsTraining;
+    bool isTraining;
 
-    std::size_t mNodeCount;
-    std::size_t mPrevCount;
-    std::vector<float> mBiases;
-    std::vector<std::vector<float> > mWeight;
+    std::size_t nodeCount;
+    std::size_t prevCount;
+    std::vector<float> biases;
+    std::vector<std::vector<float> > weight;
 
     // TODO: use std::unique_ptr
     /* activation for 'current' train example */
@@ -48,10 +48,10 @@ namespace nanoNet {
     void stopTraining();
     void applyTraining(float learningRate, int exampleCount);
 
-    std::size_t getNodeCount() const {return mNodeCount;}
-    std::size_t getPrevCount() const {return mPrevCount;}
+    std::size_t getNodeCount() const {return nodeCount;}
+    std::size_t getPrevCount() const {return prevCount;}
 
-    const std::vector<std::vector<float> >& getWeight() const {return mWeight;}
+    const std::vector<std::vector<float> >& getWeight() const {return weight;}
   };
 } /* nanoNet */
 

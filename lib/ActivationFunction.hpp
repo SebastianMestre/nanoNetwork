@@ -11,7 +11,7 @@ namespace nanoNet {
   public:
     enum activationEnum{Sigmoid = 0, Tanh, Relu, Linear};
   private:
-    activationEnum mSelected;
+    activationEnum selected;
 
   public:
     ActivationFunction(activationEnum selected);

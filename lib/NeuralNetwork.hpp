@@ -19,11 +19,11 @@ namespace nanoNet{
 
   class NeuralNetwork{
   private:
-    std::size_t mInputCount;
-    std::size_t mOutputCount;
-    std::size_t mLayerCount;
-    NeuralNetworkLayer mOutputLayer;
-    std::vector<NeuralNetworkLayer> mHiddenLayers;
+    std::size_t inputCount;
+    std::size_t outputCount;
+    std::size_t layerCount;
+    NeuralNetworkLayer outputLayer;
+    std::vector<NeuralNetworkLayer> hiddenLayers;
   public:
     NeuralNetwork();
     NeuralNetwork(std::size_t inputCount, std::size_t outputCount);
@@ -33,9 +33,9 @@ namespace nanoNet{
     std::vector<float> process(const std::vector<float>& inputData);
     void train( const std::vector<DataPoint>& trainData, std::size_t batchSize, std::size_t epochs, float learningRate);
 
-    std::size_t getInputCount(){return mInputCount;}
-    std::size_t getOutputCount(){return mOutputCount;}
-    std::size_t getLayerCount(){return mLayerCount;}
+    std::size_t getInputCount(){return inputCount;}
+    std::size_t getOutputCount(){return outputCount;}
+    std::size_t getLayerCount(){return layerCount;}
   };
 } /* nanoNet */
 
