@@ -1,8 +1,8 @@
+#include <vector>
 #include "NeuralNetworkLayer.hpp"
 
 namespace nanoNet {
-
-  NeuralNetworkLayer::NeuralNetworkLayer(std::size_t nodeCount, std::size_t prevCount, ActivationFunction::activationEnum activationFunction)
+  NeuralNetworkLayer::NeuralNetworkLayer(size_t nodeCount, size_t prevCount, ActivationFunction::activationEnum activationFunction)
   : mActivationFunction(activationFunction) {
 
     // std::mt19937 rng(std::time(NULL));
@@ -12,8 +12,8 @@ namespace nanoNet {
     mPrevCount = prevCount;
     mIsTraining = false;
 
-    mBiases = std::vector<float>(nodeCount, 0.0f);
-    mWeight = std::vector<std::vector<float> >(nodeCount, std::vector<float>(prevCount, 0.0f));
+    mBiases = vector<float>(nodeCount, 0.0f);
+    mWeight = vector<vector<float> >(nodeCount, vector<float>(prevCount, 0.0f));
 
     for(int i = 0; i < nodeCount; i++){
       // mBiases[i] = uniform(rng);
@@ -32,9 +32,9 @@ namespace nanoNet {
     }
   }
 
-  std::vector<float> NeuralNetworkLayer::feedForward(const std::vector<float>& inputData){
+  vector<float> NeuralNetworkLayer::feedForward(const vector<float>& inputData){
 
-    std::vector<float> result(mNodeCount);
+    vector<float> result(mNodeCount);
 
     for (int i = 0; i < mNodeCount; i++) {
       result[i] = mBiases[i];
@@ -51,7 +51,7 @@ namespace nanoNet {
     return result;
   }
 
-  void NeuralNetworkLayer::gradientFromExample(const std::vector<float>& exampleData) {
+  void NeuralNetworkLayer::gradientFromExample(const vector<float>& exampleData) {
     if(!mIsTraining)
       return;
 
@@ -78,7 +78,7 @@ namespace nanoNet {
     gradientFromActives(*prev.pValues);
   }
 
-  void NeuralNetworkLayer::gradientFromActives(const std::vector<float>& inputData) {
+  void NeuralNetworkLayer::gradientFromActives(const vector<float>& inputData) {
     if(!mIsTraining)
       return;
 
@@ -112,12 +112,12 @@ namespace nanoNet {
     if(!mIsTraining)
       return;
 
-    pValues = new std::vector<float>(mNodeCount, 0.0f);
+    pValues = new vector<float>(mNodeCount, 0.0f);
 
-    pValuesG = new std::vector<float>(mNodeCount, 0.0f);
+    pValuesG = new vector<float>(mNodeCount, 0.0f);
 
-    pBiasesGS = new std::vector<float>(mNodeCount, 0.0f);
-    pWeightGS = new std::vector<std::vector<float> >(mNodeCount, std::vector<float>(mPrevCount, 0.0f));
+    pBiasesGS = new vector<float>(mNodeCount, 0.0f);
+    pWeightGS = new vector<vector<float> >(mNodeCount, vector<float>(mPrevCount, 0.0f));
 
     mIsTraining = true;
   }

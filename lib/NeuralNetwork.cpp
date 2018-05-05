@@ -1,15 +1,16 @@
+#include <vector>
 #include "NeuralNetwork.hpp"
 
 namespace nanoNet {
 
-  NeuralNetwork::NeuralNetwork(std::size_t inputCount, std::size_t outputCount):
+  NeuralNetwork::NeuralNetwork(size_t inputCount, size_t outputCount):
   mOutputLayer(outputCount, inputCount, ActivationFunction::Linear){
     mInputCount = inputCount;
     mOutputCount = outputCount;
     mLayerCount = 0u;
   }
 
-  void NeuralNetwork::addLayer(std::size_t nodeCount, ActivationFunction::activationEnum activationFunction){
+  void NeuralNetwork::addLayer(size_t nodeCount, ActivationFunction::activationEnum activationFunction){
     if(mLayerCount == 0){
       mHiddenLayers.push_back(NeuralNetworkLayer(nodeCount, mInputCount, activationFunction));
     }else{
@@ -19,12 +20,12 @@ namespace nanoNet {
     mOutputLayer = NeuralNetworkLayer(mOutputCount, mHiddenLayers.back().getNodeCount(), ActivationFunction::Linear);
   }
 
-  std::vector<float> NeuralNetwork::process(const std::vector<float>& inputData){
+  vector<float> NeuralNetwork::process(const vector<float>& inputData){
 
     if(mLayerCount == 0)
       return mOutputLayer.feedForward(inputData);
 
-    std::vector<float> v = inputData;
+    vector<float> v = inputData;
     for (int i = 0; i < mLayerCount; i++) {
       v = mHiddenLayers[i].feedForward(v);
     }
@@ -32,7 +33,7 @@ namespace nanoNet {
 
   }
 
-  void NeuralNetwork::train( const std::vector<DataPoint>& trainData, std::size_t batchSize, std::size_t epochs, float learningRate){
+  void NeuralNetwork::train( const vector<DataPoint>& trainData, size_t batchSize, size_t epochs, float learningRate){
 
     int trainExamples = (int)trainData.size();
 

@@ -12,30 +12,33 @@
 #include "NeuralNetworkLayer.hpp"
 
 namespace nanoNet{
+
+  using std::vector;
+
   struct  DataPoint{
-    std::vector<float> input;
-    std::vector<float> output;
+    vector<float> input;
+    vector<float> output;
   };
 
   class NeuralNetwork{
   private:
-    std::size_t mInputCount;
-    std::size_t mOutputCount;
-    std::size_t mLayerCount;
+    size_t mInputCount;
+    size_t mOutputCount;
+    size_t mLayerCount;
     NeuralNetworkLayer mOutputLayer;
-    std::vector<NeuralNetworkLayer> mHiddenLayers;
+    vector<NeuralNetworkLayer> mHiddenLayers;
   public:
     NeuralNetwork();
-    NeuralNetwork(std::size_t inputCount, std::size_t outputCount);
+    NeuralNetwork(size_t inputCount, size_t outputCount);
     ~NeuralNetwork() = default;
-    void addLayer(std::size_t nodeCount, ActivationFunction::activationEnum activationFunction);
+    void addLayer(size_t nodeCount, ActivationFunction::activationEnum activationFunction);
 
-    std::vector<float> process(const std::vector<float>& inputData);
-    void train( const std::vector<DataPoint>& trainData, std::size_t batchSize, std::size_t epochs, float learningRate);
+    vector<float> process(const vector<float>& inputData);
+    void train( const vector<DataPoint>& trainData, size_t batchSize, size_t epochs, float learningRate);
 
-    std::size_t getInputCount(){return mInputCount;}
-    std::size_t getOutputCount(){return mOutputCount;}
-    std::size_t getLayerCount(){return mLayerCount;}
+    size_t getInputCount(){return mInputCount;}
+    size_t getOutputCount(){return mOutputCount;}
+    size_t getLayerCount(){return mLayerCount;}
   };
 } /* nanoNet */
 
