@@ -3,32 +3,32 @@
 namespace nanoNet {
 
   NeuralNetwork::NeuralNetwork(std::size_t inputCount, std::size_t outputCount):
-  mOutputLayer(outputCount, inputCount, ActivationFunction::Linear){
-    mInputCount = inputCount;
-    mOutputCount = outputCount;
-    mLayerCount = 0u;
+  outputLayer(outputCount, inputCount, ActivationFunction::Linear){
+    this->inputCount = inputCount;
+    this->outputCount = outputCount;
+    layerCount = 0u;
   }
 
   void NeuralNetwork::addLayer(std::size_t nodeCount, ActivationFunction::activationEnum activationFunction){
-    if(mLayerCount == 0){
-      mHiddenLayers.push_back(NeuralNetworkLayer(nodeCount, mInputCount, activationFunction));
+    if(layerCount == 0){
+      hiddenLayers.push_back(NeuralNetworkLayer(nodeCount, inputCount, activationFunction));
     }else{
-      mHiddenLayers.push_back(NeuralNetworkLayer(nodeCount, mHiddenLayers.back().getNodeCount(), activationFunction));
+      hiddenLayers.push_back(NeuralNetworkLayer(nodeCount, hiddenLayers.back().getNodeCount(), activationFunction));
     }
 
-    mOutputLayer = NeuralNetworkLayer(mOutputCount, mHiddenLayers.back().getNodeCount(), ActivationFunction::Linear);
+    outputLayer = NeuralNetworkLayer(outputCount, hiddenLayers.back().getNodeCount(), ActivationFunction::Linear);
   }
 
   std::vector<float> NeuralNetwork::process(const std::vector<float>& inputData){
 
-    if(mLayerCount == 0)
-      return mOutputLayer.feedForward(inputData);
+    if(layerCount == 0)
+      return outputLayer.feedForward(inputData);
 
     std::vector<float> v = inputData;
-    for (int i = 0; i < mLayerCount; i++) {
-      v = mHiddenLayers[i].feedForward(v);
+    for (int i = 0; i < layerCount; i++) {
+      v = hiddenLayers[i].feedForward(v);
     }
-    return mOutputLayer.feedForward(v);
+    return outputLayer.feedForward(v);
 
   }
 
@@ -36,10 +36,10 @@ namespace nanoNet {
 
     int trainExamples = (int)trainData.size();
 
-    for(int i = 0; i < mLayerCount; i++){
-      mHiddenLayers[i].startTraining();
+    for(int i = 0; i < layerCount; i++){
+      hiddenLayers[i].startTraining();
     }
-    mOutputLayer.startTraining();
+    outputLayer.startTraining();
 
     for (int iEpoch = 0; iEpoch < epochs; iEpoch++) {
       ///std::shuffle(trainData.begin(), trainData.end(), std::default_random_engine(0));
@@ -49,40 +49,40 @@ namespace nanoNet {
 
           process(trainData[iExample].input);
 
-          mOutputLayer.gradientFromExample(trainData[iExample].output);
-          if(mLayerCount == 0){
-            mOutputLayer.gradientFromActives(trainData[iExample].input);
+          outputLayer.gradientFromExample(trainData[iExample].output);
+          if(layerCount == 0){
+            outputLayer.gradientFromActives(trainData[iExample].input);
           }else{
-            mOutputLayer.gradientFromActives(mHiddenLayers[mLayerCount-1]);
+            outputLayer.gradientFromActives(hiddenLayers[layerCount-1]);
           }
 
-          for(int i = mLayerCount-1; i >= 0; i--){
+          for(int i = layerCount-1; i >= 0; i--){
 
-            if(i == mLayerCount-1){
-              mHiddenLayers[i].gradientFromAnother(mOutputLayer);
+            if(i == layerCount-1){
+              hiddenLayers[i].gradientFromAnother(outputLayer);
             }else{
-              mHiddenLayers[i].gradientFromAnother(mHiddenLayers[i+1]);
+              hiddenLayers[i].gradientFromAnother(hiddenLayers[i+1]);
             }
 
             if(i == 0){
-              mHiddenLayers[i].gradientFromActives(trainData[iExample].input);
+              hiddenLayers[i].gradientFromActives(trainData[iExample].input);
             }else{
-              mHiddenLayers[i].gradientFromActives(mHiddenLayers[i+1]);
+              hiddenLayers[i].gradientFromActives(hiddenLayers[i+1]);
             }
           }
         }
 
-        for(int i = 0; i < mLayerCount; i++){
-          mHiddenLayers[i].applyTraining(learningRate, batchSize);
+        for(int i = 0; i < layerCount; i++){
+          hiddenLayers[i].applyTraining(learningRate, batchSize);
         }
-        mOutputLayer.applyTraining(learningRate, batchSize);
+        outputLayer.applyTraining(learningRate, batchSize);
       }
     }
 
-    for(int i = 0; i < mLayerCount; i++){
-      mHiddenLayers[i].stopTraining();
+    for(int i = 0; i < layerCount; i++){
+      hiddenLayers[i].stopTraining();
     }
-    mOutputLayer.stopTraining();
+    outputLayer.stopTraining();
   }
 
 } /* nanoNet */

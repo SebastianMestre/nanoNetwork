@@ -2,15 +2,15 @@
 
 namespace nanoNet {
   ActivationFunction::ActivationFunction(activationEnum selected){
-    mSelected = selected;
+    this->selected = selected;
   }
 
   void ActivationFunction::setSelected(activationEnum selected) {
-    mSelected = selected;
+    this->selected = selected;
   }
 
   float ActivationFunction::operator()(float x) const {
-    switch (mSelected) {
+    switch (selected) {
       case Sigmoid:
         return sigmoid_activation(x);
       case Tanh:
@@ -25,7 +25,7 @@ namespace nanoNet {
   }
 
   float ActivationFunction::operator[](float x) const {
-    switch (mSelected) {
+    switch (selected) {
       case Sigmoid:
         return sigmoid_derivative(x);
       case Tanh:

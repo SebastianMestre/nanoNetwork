@@ -8,43 +8,43 @@ namespace nanoNet {
     // std::mt19937 rng(std::time(NULL));
     // std::uniform_real_distribution<float> uniform(-1.0f, 1.0f);
 
-    mNodeCount = nodeCount;
-    mPrevCount = prevCount;
-    mIsTraining = false;
+    this->nodeCount = nodeCount;
+    this->prevCount = prevCount;
+    isTraining = false;
 
-    mBiases = std::vector<float>(nodeCount, 0.0f);
-    mWeight = std::vector<std::vector<float> >(nodeCount, std::vector<float>(prevCount, 0.0f));
+    biases = std::vector<float>(nodeCount, 0.0f);
+    weight = std::vector<std::vector<float> >(nodeCount, std::vector<float>(prevCount, 0.0f));
 
     for(int i = 0; i < nodeCount; i++){
-      // mBiases[i] = uniform(rng);
-      mBiases[i] = 0.0f;
+      // biases[i] = uniform(rng);
+      biases[i] = 0.0f;
       for(int j = 0; j < prevCount; j++){
-        // mWeight[i][j] = uniform(rng);
-        mWeight[i][j] = 0.0f;
+        // weight[i][j] = uniform(rng);
+        weight[i][j] = 0.0f;
       }
     }
   }
 
   NeuralNetworkLayer::~NeuralNetworkLayer(){
     // TODO: complete this
-    if(mIsTraining){
+    if(isTraining){
       stopTraining();
     }
   }
 
   std::vector<float> NeuralNetworkLayer::feedForward(const std::vector<float>& inputData){
 
-    std::vector<float> result(mNodeCount);
+    std::vector<float> result(nodeCount);
 
-    for (int i = 0; i < mNodeCount; i++) {
-      result[i] = mBiases[i];
-      for (int j = 0; j < mPrevCount; j++) {
-        result[i] += mWeight[i][j] * inputData[j];
+    for (int i = 0; i < nodeCount; i++) {
+      result[i] = biases[i];
+      for (int j = 0; j < prevCount; j++) {
+        result[i] += weight[i][j] * inputData[j];
       }
       result[i] = mActivationFunction(result[i]);
     }
 
-    if(mIsTraining){
+    if(isTraining){
       (*pValues) = result;
     }
 
@@ -52,22 +52,22 @@ namespace nanoNet {
   }
 
   void NeuralNetworkLayer::gradientFromExample(const std::vector<float>& exampleData) {
-    if(!mIsTraining)
+    if(!isTraining)
       return;
 
-    for (int i = 0; i < mNodeCount; i++) {
+    for (int i = 0; i < nodeCount; i++) {
       (*pValuesG)[i] = 2 * ((*pValues)[i] - exampleData[i]);
     }
   }
 
   void NeuralNetworkLayer::gradientFromAnother(const NeuralNetworkLayer& next) {
-    if(!mIsTraining)
+    if(!isTraining)
       return;
 
     auto nextWeight = next.getWeight();
-    for (size_t i = 0; i < mNodeCount; i++) {
+    for (size_t i = 0; i < nodeCount; i++) {
       (*pValuesG)[i] = 0.0f;
-      for (int j = 0; j < next.mNodeCount; j++) {
+      for (int j = 0; j < next.nodeCount; j++) {
         (*pValuesG)[i] += (*next.pValuesG)[j] * next.mActivationFunction[ (*next.pValues)[j] ] * nextWeight[j][i];
       }
 
@@ -79,16 +79,16 @@ namespace nanoNet {
   }
 
   void NeuralNetworkLayer::gradientFromActives(const std::vector<float>& inputData) {
-    if(!mIsTraining)
+    if(!isTraining)
       return;
 
     // TODO: fix names
-    for(int i = 0; i < mNodeCount; i++){
+    for(int i = 0; i < nodeCount; i++){
       float aaa = (*pValuesG)[i] * mActivationFunction[ (*pValues)[i] ];
 
       (*pBiasesGS)[i] += aaa;
 
-      for (int j = 0; j < mPrevCount; j++) {
+      for (int j = 0; j < prevCount; j++) {
 
         (*pWeightGS)[i][j] += aaa * inputData[j];
 
@@ -97,33 +97,33 @@ namespace nanoNet {
   }
 
   void NeuralNetworkLayer::substractGradients(float amount){
-    if(!mIsTraining)
+    if(!isTraining)
       return;
 
-    for (int i = 0; i < mNodeCount; i++) {
-      mBiases[i] -= (*pBiasesGS)[i] * amount;
-      for (int j = 0; j < mPrevCount; j++) {
-        mWeight[i][j] -= (*pWeightGS)[i][j] * amount;
+    for (int i = 0; i < nodeCount; i++) {
+      biases[i] -= (*pBiasesGS)[i] * amount;
+      for (int j = 0; j < prevCount; j++) {
+        weight[i][j] -= (*pWeightGS)[i][j] * amount;
       }
     }
   }
 
   void NeuralNetworkLayer::startTraining() {
-    if(!mIsTraining)
+    if(!isTraining)
       return;
 
-    pValues = new std::vector<float>(mNodeCount, 0.0f);
+    pValues = new std::vector<float>(nodeCount, 0.0f);
 
-    pValuesG = new std::vector<float>(mNodeCount, 0.0f);
+    pValuesG = new std::vector<float>(nodeCount, 0.0f);
 
-    pBiasesGS = new std::vector<float>(mNodeCount, 0.0f);
-    pWeightGS = new std::vector<std::vector<float> >(mNodeCount, std::vector<float>(mPrevCount, 0.0f));
+    pBiasesGS = new std::vector<float>(nodeCount, 0.0f);
+    pWeightGS = new std::vector<std::vector<float> >(nodeCount, std::vector<float>(prevCount, 0.0f));
 
-    mIsTraining = true;
+    isTraining = true;
   }
 
   void NeuralNetworkLayer::stopTraining() {
-    if(!mIsTraining)
+    if(!isTraining)
       return;
 
     delete pValues;
@@ -133,7 +133,7 @@ namespace nanoNet {
     delete pBiasesGS;
     delete pWeightGS;
 
-    mIsTraining = false;
+    isTraining = false;
   }
 
   void NeuralNetworkLayer::applyTraining(float learningRate, int exampleCount){
