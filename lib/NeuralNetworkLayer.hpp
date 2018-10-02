@@ -9,50 +9,38 @@
 
 namespace nanoNet {
 
-  class NeuralNetworkLayer {
-  private:
-    ActivationFunction mActivationFunction;
-    bool isTraining;
+    class NeuralNetworkLayer {
+    public:
+        using real_type = float;
+        using vector_type = std::vector<real_type>;
+        using matrix_type = std::vector<vector_type>;
+    private:
+        std::size_t m_inputCount;
+        std::size_t m_outputCount;
 
-    std::size_t nodeCount;
-    std::size_t prevCount;
-    std::vector<float> biases;
-    std::vector<std::vector<float> > weight;
+        ActivationFunction m_activationFunction;
+        vector_type m_biases;
+        matrix_type m_weights;
 
-    // TODO: use std::unique_ptr
-    /* activation for 'current' train example */
-    std::vector<float>* pValues;
+    public:
+        NeuralNetworkLayer();
 
-    /* gradients for 'current' train example */
-    std::vector<float>* pValuesG;
+        NeuralNetworkLayer(
+            std::size_t inputCount,
+            std::size_t outputCount,
+            const ActivationFunction& activationFunction
+        );
 
-    /* gradient sums over all train examples in batch */
-    std::vector<float>* pBiasesGS;
-    std::vector<std::vector<float> >* pWeightGS;
+        ~NeuralNetworkLayer() = default;
 
-  public:
-    NeuralNetworkLayer();
-    NeuralNetworkLayer(std::size_t nodeCount, std::size_t prevCount, nanoNet::ActivationFunction::activationEnum activationFunction);
-    ~NeuralNetworkLayer();
+        vector_type predict (const vector_type& inputData) const;
 
-    std::vector<float> feedForward(const std::vector<float>& inputData);
+        std::size_t inputCount () const {return m_inputCount;}
+        std::size_t outputCount () const {return m_outputCount;}
 
-    void gradientFromExample(const std::vector<float>& exampleData);
-    void gradientFromAnother(const NeuralNetworkLayer& next);
-    void gradientFromActives(const NeuralNetworkLayer& prev);
-    void gradientFromActives(const std::vector<float>& inputData);
-
-    void substractGradients(float amount);
-
-    void startTraining();
-    void stopTraining();
-    void applyTraining(float learningRate, int exampleCount);
-
-    std::size_t getNodeCount() const {return nodeCount;}
-    std::size_t getPrevCount() const {return prevCount;}
-
-    const std::vector<std::vector<float> >& getWeight() const {return weight;}
-  };
+        const vector_type& biases () const {return m_biases;}
+        const matrix_type& weights () const {return m_weights;}
+    };
 } /* nanoNet */
 
 #endif // NANONET_NEURALNETWORKLAYER_HPP
