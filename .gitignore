@@ -29,6 +29,5 @@ cmake-build-release/
 *.iws
 
 # Local scripts
-build.bat
-error.log
+ignore
 bin
