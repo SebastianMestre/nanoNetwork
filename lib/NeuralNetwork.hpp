@@ -14,8 +14,9 @@
 namespace nanoNet{
 
   class NeuralNetwork{
+      friend class Trainer;
   private:
-    std::vector<NeuralNetworkLayer> hiddenLayers;
+    std::vector<NeuralNetworkLayer> m_layers;
   public:
     NeuralNetwork();
     ~NeuralNetwork() = default;
@@ -27,19 +28,19 @@ namespace nanoNet{
 
 
     std::size_t layerCount () {
-        return hiddenLayers.size();
+        return m_layers.size();
     }
 
     std::size_t inputCount () {
         return layerCount()
-        ? hiddenLayers[0].inputCount()
-        : 0;
+            ? m_layers[0].inputCount()
+            : 0;
     }
 
     std::size_t outputCount () {
         return layerCount()
-        ? hiddenLayers.back().outputCount()
-        : 0;
+            ? m_layers.back().outputCount()
+            : 0;
     }
   };
 } /* nanoNet */

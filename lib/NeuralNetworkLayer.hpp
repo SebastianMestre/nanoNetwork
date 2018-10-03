@@ -10,6 +10,7 @@
 namespace nanoNet {
 
     class NeuralNetworkLayer {
+        friend class Trainer;
     public:
         using real_type = float;
         using vector_type = std::vector<real_type>;

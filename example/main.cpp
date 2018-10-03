@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../lib/NeuralNetwork.hpp"
+#include "../lib/Trainer.hpp"
 
 using namespace nanoNet;
 
