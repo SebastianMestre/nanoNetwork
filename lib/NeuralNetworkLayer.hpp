@@ -7,41 +7,42 @@
 
 #include "ActivationFunction.hpp"
 
-namespace nanoNet {
+namespace nanoNet
+{
 
-    class NeuralNetworkLayer {
-        friend class Trainer;
-    public:
-        using real_type = float;
-        using vector_type = std::vector<real_type>;
-        using matrix_type = std::vector<vector_type>;
-    private:
-        std::size_t m_inputCount;
-        std::size_t m_outputCount;
+class NeuralNetworkLayer
+{
+    friend class Trainer;
 
-        ActivationFunction m_activationFunction;
-        vector_type m_biases;
-        matrix_type m_weights;
+public:
+    using real_type = float;
+    using vector_type = std::vector<real_type>;
+    using matrix_type = std::vector<vector_type>;
 
-    public:
-        NeuralNetworkLayer();
+private:
+    std::size_t m_inputCount;
+    std::size_t m_outputCount;
 
-        NeuralNetworkLayer(
-            std::size_t inputCount,
-            std::size_t outputCount,
-            const ActivationFunction& activationFunction
-        );
+    ActivationFunction m_activationFunction;
+    vector_type m_biases;
+    matrix_type m_weights;
 
-        ~NeuralNetworkLayer() = default;
+public:
+    NeuralNetworkLayer();
 
-        vector_type predict (const vector_type& inputData) const;
+    NeuralNetworkLayer(std::size_t inputCount, std::size_t outputCount,
+        const ActivationFunction& activationFunction);
 
-        std::size_t inputCount () const {return m_inputCount;}
-        std::size_t outputCount () const {return m_outputCount;}
+    ~NeuralNetworkLayer() = default;
 
-        const vector_type& biases () const {return m_biases;}
-        const matrix_type& weights () const {return m_weights;}
-    };
+    vector_type predict(const vector_type& inputData) const;
+
+    std::size_t inputCount() const { return m_inputCount; }
+    std::size_t outputCount() const { return m_outputCount; }
+
+    const vector_type& biases() const { return m_biases; }
+    const matrix_type& weights() const { return m_weights; }
+};
 } /* nanoNet */
 
 #endif // NANONET_NEURALNETWORKLAYER_HPP
