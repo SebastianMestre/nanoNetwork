@@ -1,8 +1,8 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
-#include "../lib/NeuralNetwork.hpp"
-#include "../lib/Trainer.hpp"
+#include "../src/NeuralNetwork.hpp"
+#include "../src/Trainer.hpp"
 
 using namespace nanoNet;
 
