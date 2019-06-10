@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cstdio>
 #include <vector>
+#include <random>
 
 #include "NeuralNetwork.hpp"
 #include "NeuralNetworkLayer.hpp"
@@ -32,7 +33,7 @@ public:
 
     void train(NeuralNetwork& network, DataSet dataSet)
     {
-        auto rd = std::random_device{};
+        std::random_device rd;
         for (size_t i = 0; i < epoch_count; ++i)
         {
             std::shuffle(dataSet.begin(), dataSet.end(), rd);
